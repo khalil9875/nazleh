@@ -1,0 +1,99 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nazleh - Premium Shopping Experience</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1>Nazleh</h1>
+                    <span>Premium Shopping</span>
+                </div>
+                
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="#categories" class="nav-link">Categories</a></li>
+                        <li><a href="#products" class="nav-link">Products</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="nav-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search products..." id="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                    <button class="user-btn"><i class="fas fa-user"></i></button>
+                </div>
+                
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Welcome to <span class="brand-highlight">Nazleh</span></h1>
+                <p class="hero-subtitle">Discover premium products from our exclusive collection of five distinguished brands</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('categories')">Explore Categories</button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('products')">View Products</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-graphic">
+                    <div class="floating-card card-1">
+                        <i class="fas fa-palette"></i>
+                        <span>Makeup 666</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-gem"></i>
+                        <span>Nazleh Jewellery</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-coins"></i>
+                        <span>Nazleh Ounce</span>
+                    </div>
+                    <div class="floating-card card-4">
+                        <i class="fas fa-tshirt"></i>
+                        <span>Nazleh Clothes</span>
+                    </div>
+                    <div class="floating-card card-5">
+                        <i class="fas fa-spray-can"></i>
+                        <span>The Kanz</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Premium Brands</h2>
+                <p>Explore our carefully curated collection from five distinguished companies</p>
+            </div>
+            
+            <div class="categories-grid" id="categories-grid">
+                <!-- Categories will be loaded dynamically -->
