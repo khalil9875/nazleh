@@ -1,0 +1,9 @@
+
+
+{
+    "_readme": ["Lock file for deployment"],
+    "content-hash": "temp",
+    "packages": [],
+    "packages-dev": [],
+    "platform": {"php": "^8.1"}
+}
