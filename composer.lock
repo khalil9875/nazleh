@@ -1,9 +1,9 @@
-
-
 {
-    "_readme": ["Lock file for deployment"],
-    "content-hash": "temp",
+    "_readme": ["Auto-generated for deployment"],
+    "content-hash": "temp-hash-123456",
     "packages": [],
     "packages-dev": [],
-    "platform": {"php": "^8.1"}
+    "platform": {"php": "^8.1"},
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
