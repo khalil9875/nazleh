@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Nazleh</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .checkout-container {
+            max-width: 1000px;
+            margin: 120px auto 2rem;
+            padding: 0 20px;
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+        }
+        
+        .checkout-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section h3 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-turquoise);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .order-summary {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px var(--shadow);
+            height: fit-content;
+        }
+        
+        .order-summary h3 {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .item-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .item-price {
+            font-weight: 600;
+            color: var(--primary-turquoise);
+        }
+        
+        .order-total {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--gray);
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .total-row.final {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .place-order-btn {
+            width: 100%;
+            background: var(--turquoise-gradient);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+        }
+        
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-hover);
+        }
+        
+        .place-order-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .back-to-cart {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-turquoise);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+        
+        .back-to-cart:hover {
+            color: var(--dark-turquoise);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .loading-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .payment-methods {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method {
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary-turquoise);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary-turquoise);
+            background: rgba(64, 224, 208, 0.1);
+        }
+        
+        .payment-method.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .payment-method-icon {
+            font-size: 1.5rem;
+            color: var(--primary-turquoise);
+            width: 30px;
+            text-align: center;
+        }
+        
+        .payment-method-info {
+            flex: 1;
+        }
+        
+        .payment-method-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .payment-method-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            transition: var(--transition);
+            background: var(--white);
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-turquoise);
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><a href="/" style="text-decoration: none; color: inherit;">Nazleh</a></h1>
+                    <span>Premium Shopping</span>
+                </div>
+                
+                <nav class="nav-menu">
+                    <ul>
+                        <li><a href="/" class="nav-link">Home</a></li>
+                        <li><a href="/#categories" class="nav-link">Categories</a></li>
+                        <li><a href="/#products" class="nav-link">Products</a></li>
+                        <li><a href="/#about" class="nav-link">About</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="nav-actions">
+                    <div class="cart-icon" onclick="window.location.href='/'">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="checkout-container">
+        <a href="/" class="back-to-cart">
+            <i class="fas fa-arrow-left"></i>
+            Back to Shopping
+        </a>
+        
+        <h1 style="margin-bottom: 2rem; color: var(--text-dark);">Checkout</h1>
+        
+        <div class="checkout-grid">
+            <div class="checkout-form">
+                <form id="checkout-form">
+                    <div class="form-section">
+                        <h3><i class="fas fa-user"></i> Customer Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer_name">Full Name *</label>
+                                <input type="text" id="customer_name" name="customer_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer_email">Email Address *</label>
+                                <input type="email" id="customer_email" name="customer_email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_phone">Phone Number</label>
+                            <input type="tel" id="customer_phone" name="customer_phone">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-shipping-fast"></i> Shipping Information</h3>
+                        <div class="form-group">
+                            <label for="shipping_address">Address *</label>
+                            <textarea id="shipping_address" name="shipping_address" rows="3" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shipping_city">City *</label>
+                                <input type="text" id="shipping_city" name="shipping_city" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping_postal_code">Postal Code</label>
+                                <input type="text" id="shipping_postal_code" name="shipping_postal_code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="shipping_country">Country *</label>
+                            <input type="text" id="shipping_country" name="shipping_country" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
+                        <div class="payment-methods" id="payment-methods">
+                            <!-- Payment methods will be loaded here -->
+                        </div>
+                        
+                        <div class="payment-details" id="payment-details" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="card_number">Card Number *</label>
+                                    <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+                                </div>
+                                <div class="form-group">
+                                    <label for="card_name">Cardholder Name *</label>
+                                    <input type="text" id="card_name" name="card_name" placeholder="John Doe">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry_month">Expiry Month *</label>
+                                    <select id="expiry_month" name="expiry_month">
+                                        <option value="">Month</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="expiry_year">Expiry Year *</label>
+                                    <select id="expiry_year" name="expiry_year">
+                                        <option value="">Year</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cvv">CVV *</label>
+                                    <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="order-items">
+                    <!-- Order items will be loaded here -->
+                </div>
+                <div class="order-total">
+                    <div class="total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Shipping:</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Tax:</span>
+                        <span>$0.00</span>
+                    </div>
+                    <div class="total-row final">
+                        <span>Total:</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+                <button type="submit" form="checkout-form" class="place-order-btn" id="place-order-btn">
+                    <i class="fas fa-credit-card"></i>
+                    Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h3 style="margin-top: 1rem;">Processing your order...</h3>
+            <p>Please wait while we process your order.</p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let cart = JSON.parse(localStorage.getItem('nazleh_cart')) || [];
+        let selectedPaymentMethod = null;
+        
+        // Initialize checkout page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadOrderSummary();
+            loadPaymentMethods();
+            setupCheckoutForm();
+            updateCartCount();
+            populateExpiryYears();
+        });
+        
+        function loadOrderSummary() {
+            const orderItemsContainer = document.getElementById('order-items');
+            const subtotalElement = document.getElementById('subtotal');
+            const totalElement = document.getElementById('total');
+            
+            if (cart.length === 0) {
+                orderItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+                document.getElementById('place-order-btn').disabled = true;
+                return;
+            }
+            
+            let subtotal = 0;
+            
+            orderItemsContainer.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                return `
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-details">Quantity: ${item.quantity}</div>
+                        </div>
+                        <div class="item-price">$${itemTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            totalElement.textContent = `$${subtotal.toFixed(2)}`;
+        }
+        
+        async function loadPaymentMethods() {
+            try {
+                const response = await fetch('/api/payment/methods');
+                const paymentMethods = await response.json();
+                
+                const container = document.getElementById('payment-methods');
+                container.innerHTML = paymentMethods.map(method => `
+                    <div class="payment-method ${method.enabled ? '' : 'disabled'}" 
+                         data-method="${method.id}" 
+                         onclick="${method.enabled ? `selectPaymentMethod('${method.id}')` : ''}">
+                        <div class="payment-method-icon">
+                            <i class="${method.icon}"></i>
+                        </div>
+                        <div class="payment-method-info">
+                            <div class="payment-method-name">${method.name}</div>
+                            <div class="payment-method-desc">${method.description}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load payment methods:', error);
+            }
+        }
+        
+        function selectPaymentMethod(methodId) {
+            // Remove previous selection
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Select new method
+            document.querySelector(`[data-method="${methodId}"]`).classList.add('selected');
+            selectedPaymentMethod = methodId;
+            
+            // Show/hide payment details based on method
+            const paymentDetails = document.getElementById('payment-details');
+            if (methodId === 'credit_card') {
+                paymentDetails.style.display = 'block';
+                makeFieldsRequired(true);
+            } else {
+                paymentDetails.style.display = 'none';
+                makeFieldsRequired(false);
+            }
+        }
+        
+        function makeFieldsRequired(required) {
+            const fields = ['card_number', 'card_name', 'expiry_month', 'expiry_year', 'cvv'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.required = required;
+                }
+            });
+        }
+        
+        function populateExpiryYears() {
+            const yearSelect = document.getElementById('expiry_year');
+            const currentYear = new Date().getFullYear();
+            
+            for (let i = 0; i < 20; i++) {
+                const year = currentYear + i;
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+        
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+            }
+        }
+        
+        function setupCheckoutForm() {
+            const form = document.getElementById('checkout-form');
+            form.addEventListener('submit', handleCheckout);
+            
+            // Format card number input
+            const cardNumberInput = document.getElementById('card_number');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', formatCardNumber);
+            }
+        }
+        
+        function formatCardNumber(e) {
+            let value = e.target.value.replace(/\s/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        }
+        
+        async function handleCheckout(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const checkoutData = Object.fromEntries(formData.entries());
+            
+            // Show loading overlay
+            document.getElementById('loading-overlay').classList.add('show');
+            document.getElementById('place-order-btn').disabled = true;
+            
+            try {
+                // First, create the order
+                const orderResponse = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(checkoutData)
+                });
+                
+                const orderResult = await orderResponse.json();
+                
+                if (!orderResponse.ok) {
+                    throw new Error(orderResult.error || 'Checkout failed');
+                }
+                
+                // Then process payment
+                const paymentData = {
+                    order_id: orderResult.order.id,
+                    payment_method: selectedPaymentMethod,
+                    amount: orderResult.order.total_amount
+                };
+                
+                // Add card details if credit card is selected
+                if (selectedPaymentMethod === 'credit_card') {
+                    paymentData.card_number = checkoutData.card_number;
+                    paymentData.card_name = checkoutData.card_name;
+                    paymentData.expiry_month = checkoutData.expiry_month;
+                    paymentData.expiry_year = checkoutData.expiry_year;
+                    paymentData.cvv = checkoutData.cvv;
+                }
+                
+                const paymentResponse = await fetch('/api/payment/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(paymentData)
+                });
+                
+                const paymentResult = await paymentResponse.json();
+                
+                if (paymentResponse.ok && paymentResult.success) {
+                    // Clear cart
+                    localStorage.removeItem('nazleh_cart');
+                    
+                    // Show success message and redirect
+                    alert(`Order placed and payment processed successfully!\\nOrder number: ${orderResult.order.order_number}\\nTransaction ID: ${paymentResult.transaction_id}`);
+                    window.location.href = '/';
+                } else {
+                    throw new Error(paymentResult.error || 'Payment failed');
+                }
+            } catch (error) {
+                console.error('Checkout error:', error);
+                alert('Failed to place order: ' + error.message);
+            } finally {
+                // Hide loading overlay
+                document.getElementById('loading-overlay').classList.remove('show');
+                document.getElementById('place-order-btn').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
+
