@@ -21,7 +21,7 @@
                 "shasum": ""
             },
             "require": {
-                "filament/filament": "^3.0",
+                "filament/filament": "^v3.0",
                 "illuminate/support": "^9|^10|^11",
                 "php": "^8.1|^8.2",
                 "spatie/laravel-permission": "^5.4|^6.0"
@@ -221,7 +221,7 @@
             },
             "require-dev": {
                 "awcodes/filament-tiptap-editor": "^3.0",
-                "filament/filament": "^3.0",
+                "filament/filament": "^v3.0",
                 "laravel/pint": "^1.0",
                 "nunomaduro/collision": "^7.0",
                 "orchestra/testbench": "^8.0",
@@ -301,7 +301,7 @@
             },
             "require-dev": {
                 "awcodes/html-faker": "^0.1.0",
-                "filament/filament": "^3.0",
+                "filament/filament": "^v3.0",
                 "laravel/pint": "^1.0",
                 "nunomaduro/collision": "^7.0",
                 "orchestra/testbench": "^8.0",
@@ -2084,7 +2084,7 @@
         },
         {
             "name": "filament/filament",
-            "version": "v3.2.97",
+            "version": "v3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/panels.git",
