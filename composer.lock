@@ -3668,7 +3668,7 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.19.0",
+            "version": "v10.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
